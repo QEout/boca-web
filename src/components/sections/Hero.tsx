@@ -1,26 +1,37 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
+import Link from 'next/link'
 
 const socialLinks = [
   {
     name: "Telegram",
     icon: "/images/telegram.svg",
-    url: "https://t.me/bocacommunity",
+    url: "https://t.me/bookofca",
   },
   {
-    name: "Twitter",
-    icon: "/images/twitter.svg",
-    url: "https://twitter.com/bocaofficial",
-  },
-  {
-    name: "微信公众号",
-    icon: "/images/wechat.svg",
-    url: "#",
+    name: "X",
+    icon: "/images/x.svg",
+    url: "https://x.com/book_of_ca",
   },
 ];
 
+const CONTRACT_ADDRESS = "Hdj1ebatkSaoyPGRNSrpKjRNhiv2aZNfbDukp65ipump";
+
 export default function Hero() {
+  const [showCopied, setShowCopied] = useState(false);
+
+  const handleCopyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTRACT_ADDRESS);
+      setShowCopied(true);
+      setTimeout(() => setShowCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* 水墨背景 */}
@@ -49,24 +60,23 @@ export default function Hero() {
         {/* CTA 按钮 */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8 animate-slide-up delay-200">
           <a
-            href="https://t.me/bocacommunity"
+            href="https://t.me/bookofca"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"
           >
             加入国漫复兴
           </a>
-          <a
-            href="/whitepaper.pdf"
-            target="_blank"
+          <Link
+            href="/whitepaper"
             className="btn btn-secondary"
           >
             白皮书速览
-          </a>
+          </Link>
         </div>
 
         {/* 社交媒体链接 */}
-        <div className="flex justify-center gap-6 mb-8 animate-slide-up delay-300">
+        <div className="flex justify-center gap-6 mb-6 animate-slide-up delay-300">
           {socialLinks.map((social) => (
             <a
               key={social.name}
@@ -85,6 +95,38 @@ export default function Hero() {
               <span className="text-sm text-gray-600">{social.name}</span>
             </a>
           ))}
+        </div>
+
+        {/* 合约地址 */}
+        <div className="relative mb-8 animate-slide-up delay-300">
+          <div 
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full cursor-pointer hover:bg-white/20 transition-colors"
+            onClick={handleCopyAddress}
+          >
+            <span className="text-sm text-gray-300">Contract:</span>
+            <span className="text-sm font-mono text-primary">
+              {CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)}
+            </span>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-4 w-4 text-gray-400" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" 
+              />
+            </svg>
+          </div>
+          {showCopied && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-black/80 text-white text-xs rounded-full">
+              已复制
+            </div>
+          )}
         </div>
 
         {/* 风险提示 */}
