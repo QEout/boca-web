@@ -13,7 +13,7 @@ export default function Footer() {
     <footer ref={ref} className="bg-gray-50 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 免责声明 */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
@@ -28,7 +28,7 @@ export default function Footer() {
               本项目不向中国、美国等监管敏感地区用户提供投资服务
             </p>
           </div>
-        </motion.div>
+        </motion.div> */}
 
         {/* 彩蛋提示 */}
         <motion.div
